@@ -172,7 +172,3 @@ class TestRF1(TestCase):
         em = EnterpriseManager()
         with self.assertRaises(EnterpriseManagementException):
             em.register_project("B12345678","PRO01","valid project name","HR","01/01/2025","output not string in MD5 format")
-
-
-if __name__ == "__main__":
-    unittest.main()
