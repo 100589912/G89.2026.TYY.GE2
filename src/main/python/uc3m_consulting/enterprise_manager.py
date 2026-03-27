@@ -1,4 +1,6 @@
 """Module """
+from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
+from uc3m_consulting.enterprise_project import EnterpriseProject
 
 class EnterpriseManager:
     """Class for providing the methods for managing the orders"""
@@ -43,3 +45,10 @@ class EnterpriseManager:
             return controlChar == letters[baseDigit]
 
         return controlChar == str(baseDigit) or controlChar == letters[baseDigit]
+    def register_project(self,company_cif: str, project_achronym: str, operation_name: str, department: str, date: str, budget: float):
+        if not EnterpriseManager.validate_cif(company_cif):
+            raise EnterpriseManagementException("Wrong CIF value")
+        if budget <= 50000:
+            raise EnterpriseManagementException("Low budget")
+        obj=EnterpriseProject(company_cif, project_achronym, operation_name, department, date, budget)
+        return obj.project_id
