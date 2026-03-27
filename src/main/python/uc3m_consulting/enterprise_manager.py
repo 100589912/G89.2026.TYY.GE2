@@ -52,61 +52,61 @@ class EnterpriseManager:
         from datetime import datetime
 
         if not isinstance(company_cif, str):
-            raise EnterpriseManagementException("Wrong CIF value")
+            raise EnterpriseManagementException("Wrong CIF value - not a string")
         if len(company_cif) != 9:
-            raise EnterpriseManagementException("Wrong CIF value")
+            raise EnterpriseManagementException("Wrong CIF value - incorrect length")
         if not company_cif[0].isalpha():
-            raise EnterpriseManagementException("Wrong CIF value")
+            raise EnterpriseManagementException("Wrong CIF value - first character not a letter")
         if not company_cif[1:8].isdigit():
-            raise EnterpriseManagementException("Wrong CIF value")
+            raise EnterpriseManagementException("Wrong CIF value - invalid numeric part")
         if not EnterpriseManager.validate_cif(company_cif):
-            raise EnterpriseManagementException("Wrong CIF value")
+            raise EnterpriseManagementException("Wrong CIF value - invalid control character")
 
         if not isinstance(project_acronym, str):
-            raise EnterpriseManagementException("Wrong project acronym value")
+            raise EnterpriseManagementException("Wrong project acronym value - not a string")
         if len(project_acronym) < 5 or len(project_acronym) > 10:
-            raise EnterpriseManagementException("Wrong project acronym value")
+            raise EnterpriseManagementException("Wrong project acronym value - incorrect length")
         if not re.match(r'^[A-Z0-9]+$', project_acronym):
-            raise EnterpriseManagementException("Wrong project acronym value")
+            raise EnterpriseManagementException("Wrong project acronym value - invalid format")
 
         # Operation name validations
         if not isinstance(operation_name, str):
-            raise EnterpriseManagementException("Wrong operation name value")
+            raise EnterpriseManagementException("Wrong operation name value - not a string")
         if len(operation_name) < 10 or len(operation_name) > 30:
-            raise EnterpriseManagementException("Wrong operation name value")
+            raise EnterpriseManagementException("Wrong operation name value - incorrect length")
 
         if not isinstance(department, str):
-            raise EnterpriseManagementException("Wrong department value")
+            raise EnterpriseManagementException("Wrong department value - not a string")
         valid_departments = ["HR", "FINANCE", "LEGAL", "LOGISTICS"]
         if department not in valid_departments:
-            raise EnterpriseManagementException("Wrong department value")
+            raise EnterpriseManagementException("Wrong department value - invalid department")
 
         if not isinstance(date, str):
-            raise EnterpriseManagementException("Wrong date value")
+            raise EnterpriseManagementException("Wrong date value - not a string")
         try:
             parts = date.split("/")
             if len(parts) != 3:
-                raise EnterpriseManagementException("Wrong date value")
+                raise EnterpriseManagementException("Wrong date value - incorrect format")
             day, month, year = int(parts[0]), int(parts[1]), int(parts[2])
             if day < 1 or day > 31:
-                raise EnterpriseManagementException("Wrong date value")
+                raise EnterpriseManagementException("Wrong date value - invalid day")
             if month < 1 or month > 12:
-                raise EnterpriseManagementException("Wrong date value")
+                raise EnterpriseManagementException("Wrong date value - invalid month")
             if year < 2025 or year > 2026:
-                raise EnterpriseManagementException("Wrong date value")
+                raise EnterpriseManagementException("Wrong date value - invalid year")
             datetime(year, month, day)  # catches invalid dates like 31/02
         except EnterpriseManagementException:
             raise
         except:
             raise EnterpriseManagementException("Wrong date value")
         if not isinstance(budget, float):
-            raise EnterpriseManagementException("Wrong budget value")
+            raise EnterpriseManagementException("Wrong budget value - not a float")
         if round(budget, 2) != budget:
-            raise EnterpriseManagementException("Wrong budget value")
+            raise EnterpriseManagementException("Wrong budget value - more than two decimal places")
         if budget < 50000.00:
-            raise EnterpriseManagementException("Wrong budget value")
+            raise EnterpriseManagementException("Wrong budget value - less than minimum (50000.00)")
         if budget > 1000000.00:
-            raise EnterpriseManagementException("Wrong budget value")
+            raise EnterpriseManagementException("Wrong budget value - over the maximum (1000000.00)")
 
         obj = EnterpriseProject(company_cif, project_acronym, operation_name, department, date, budget)
         return obj.project_id
