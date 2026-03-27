@@ -187,5 +187,5 @@ class TestRF1(TestCase):
             self.assertIsInstance(result, str)
             self.assertRegex(result, r'^[a-f0-9]{32}$')
 
-    if __name__ == '__main__':
-        unittest.main(verbosity=2)
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
